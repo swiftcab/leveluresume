@@ -8,8 +8,8 @@ const Pricing: React.FC = () => {
     <div className="py-24 bg-black" id="pricing">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold tracking-tight mb-4">Investissez dans votre Expérience</h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto">L'étiquette "surqualifiée" coûte cher. Nos solutions s'amortissent dès la première invitation en entretien.</p>
+          <h2 className="text-4xl font-bold tracking-tight mb-4">Invest in Your Experience</h2>
+          <p className="text-zinc-400 max-w-2xl mx-auto">The "Overqualified" label is expensive. Our protocols pay for themselves with your first interview invite.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -20,12 +20,12 @@ const Pricing: React.FC = () => {
             >
               {plan.popular && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                  Plus Populaire
+                  Most Popular
                 </span>
               )}
               {plan.comingSoon && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-zinc-800 text-zinc-400 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-zinc-700">
-                  À Venir
+                  Coming Soon
                 </span>
               )}
               <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
@@ -66,8 +66,8 @@ const Pricing: React.FC = () => {
         </div>
 
         <div className="mt-16 p-8 bg-zinc-900/50 rounded-2xl border border-zinc-800 text-center">
-          <h4 className="text-lg font-bold mb-2">Notre Garantie Performance</h4>
-          <p className="text-zinc-400">Décrochez des entretiens en 30 jours ou nous vous remboursons. Votre expérience est votre force.</p>
+          <h4 className="text-lg font-bold mb-2">Our Performance Guarantee</h4>
+          <p className="text-zinc-400">Land interviews in 30 days or we refund you in full. Your experience is your edge—let's prove it.</p>
         </div>
       </div>
     </div>
