@@ -3,13 +3,8 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisResult } from "../types";
 
 export async function analyzeResume(resumeText: string, jobDescription: string): Promise<AnalysisResult> {
-  const apiKey = process.env.API_KEY;
-  
-  if (!apiKey) {
-    throw new Error("Configuration Missing: API_KEY environment variable is not set. Please add it to your Vercel project settings.");
-  }
-
-  const ai = new GoogleGenAI({ apiKey });
+  // Always initialize GoogleGenAI with a named parameter using process.env.API_KEY directly
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const systemInstruction = `
     You are a world-class Senior Career Strategist and ATS (Applicant Tracking System) Forensic Expert.
@@ -33,12 +28,14 @@ export async function analyzeResume(resumeText: string, jobDescription: string):
   `;
 
   try {
+    // Using gemini-3-pro-preview for complex reasoning tasks as per task-based model selection rules
     const response = await ai.models.generateContent({
       model: "gemini-3-pro-preview", 
       contents: `RESUME:\n${resumeText}\n\nTARGET JOB:\n${jobDescription}`,
       config: {
         systemInstruction,
         responseMimeType: "application/json",
+        // Enable thinking for higher reasoning quality on Gemini 3 series models
         thinkingConfig: { thinkingBudget: 4000 },
         responseSchema: {
           type: Type.OBJECT,
@@ -55,15 +52,14 @@ export async function analyzeResume(resumeText: string, jobDescription: string):
       }
     });
 
+    // Directly access the .text property from GenerateContentResponse
     const text = response.text;
     if (!text) throw new Error("The model returned an empty response.");
     
     return JSON.parse(text) as AnalysisResult;
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    if (error.message?.includes("API_KEY_INVALID")) {
-      throw new Error("Invalid API Key. Please update your project settings in Vercel.");
-    }
+    // Standardize error handling without exposing internal configuration details
     throw new Error("The intelligence core could not process your resume. Please check the text length and try again.");
   }
 }
