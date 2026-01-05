@@ -25,4 +25,6 @@ export interface AnalysisResult {
   optimizedResume: string;
   analysis: string;
   ageNeutralizationTips: string[];
+  score: number;
+  marketRelevance: string;
 }

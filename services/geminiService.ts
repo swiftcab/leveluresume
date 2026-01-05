@@ -2,44 +2,76 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisResult } from "../types";
 
-export async function analyzeResume(resumeText: string, jobDescription: string): Promise<AnalysisResult> {
-  // Always initialize GoogleGenAI with a named parameter using process.env.API_KEY directly
+export async function extractTextFromDocument(base64Data: string, mimeType: string): Promise<string> {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  try {
+    const dataOnly = base64Data.includes(',') ? base64Data.split(',')[1] : base64Data;
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: [
+        {
+          parts: [
+            {
+              inlineData: {
+                data: dataOnly,
+                mimeType: mimeType
+              }
+            },
+            {
+              text: "ACT AS A FORENSIC DOCUMENT PARSER. Extract every single word, date, and detail from this resume document. Maintain the structural layout. Return ONLY text content."
+            }
+          ]
+        }
+      ]
+    });
+    const text = response.text;
+    if (!text) throw new Error("Empty extraction.");
+    return text.trim();
+  } catch (error: any) {
+    throw new Error(`Extraction failed: ${error.message}`);
+  }
+}
+
+export async function analyzeResume(resumeText: string, jobDescription: string, resumeImageBase64?: string): Promise<AnalysisResult> {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const systemInstruction = `
-    You are a world-class Senior Career Strategist and ATS (Applicant Tracking System) Forensic Expert.
-    Your specialty is transforming the resumes of highly experienced professionals (40+) to neutralize age bias while amplifying their high-level ROI.
+    You are a 2026 Neural ATS Forensic Expert. 
+    Your mission is to calculate a 'Market Survival Score' (0-100) and then optimize the resume.
     
-    FORENSIC AGE NEUTRALIZATION PROTOCOL:
-    1. DE-DATING: Remove all graduation years. Remove dates for roles older than 15 years.
-    2. MODERNIZATION: Replace archaic terminology with modern, high-value equivalents.
-    3. TECH-STACK UPDATE: Explicitly highlight modern toolsets (AI tools, SaaS, Cloud, Agile).
-    4. NARRATIVE SHIFT: Focus on "Scale of impact" (future value) rather than "Years of experience" (history).
-    
-    TONE AND STYLE:
-    - Direct Response Copywriting (Hormozi/Brunson style).
-    - Punchy, high-stakes, ROI-driven bullet points.
-    - No fluff. No AI-style formatting (no bullet point intros like "Sure, here is...").
+    SCORING LOGIC (0-100):
+    - 0-30: Critical Failure (Too many age triggers, outdated tech, biographical layout).
+    - 31-60: High Risk (Moderate age triggers, generic results).
+    - 61-90: Competitive (Modern terminology, but lacks semantic gravity).
+    - 91-100: Elite (Neural-optimized, future-focused).
     
     OUTPUT STRUCTURE (JSON):
-    - optimizedResume: The rewritten master manuscript in professional Markdown.
-    - analysis: A 2-sentence summary of the strategic pivot made.
-    - ageNeutralizationTips: 3 highly specific tips for this specific candidate.
+    - score: Integer (0-100).
+    - marketRelevance: Short label (e.g., "ALGORITHMIC FAILURE", "CRITICAL BIAS DETECTED").
+    - optimizedResume: Markdown manuscript.
+    - analysis: 1-2 sentence strategic pivot.
+    - ageNeutralizationTips: 3 specific tactical changes.
   `;
 
   try {
-    // Using gemini-3-pro-preview for complex reasoning tasks as per task-based model selection rules
+    const contents: any[] = [];
+    if (resumeImageBase64) {
+      const dataOnly = resumeImageBase64.includes(',') ? resumeImageBase64.split(',')[1] : resumeImageBase64;
+      contents.push({ inlineData: { data: dataOnly, mimeType: 'image/jpeg' } });
+    }
+    contents.push({ text: `RESUME: ${resumeText}\n\nTARGET: ${jobDescription}` });
+
     const response = await ai.models.generateContent({
       model: "gemini-3-pro-preview", 
-      contents: `RESUME:\n${resumeText}\n\nTARGET JOB:\n${jobDescription}`,
+      contents: { parts: contents },
       config: {
         systemInstruction,
         responseMimeType: "application/json",
-        // Enable thinking for higher reasoning quality on Gemini 3 series models
-        thinkingConfig: { thinkingBudget: 4000 },
         responseSchema: {
           type: Type.OBJECT,
           properties: {
+            score: { type: Type.INTEGER },
+            marketRelevance: { type: Type.STRING },
             optimizedResume: { type: Type.STRING },
             analysis: { type: Type.STRING },
             ageNeutralizationTips: {
@@ -47,19 +79,15 @@ export async function analyzeResume(resumeText: string, jobDescription: string):
               items: { type: Type.STRING }
             }
           },
-          required: ["optimizedResume", "analysis", "ageNeutralizationTips"]
+          required: ["score", "marketRelevance", "optimizedResume", "analysis", "ageNeutralizationTips"]
         }
       }
     });
 
-    // Directly access the .text property from GenerateContentResponse
     const text = response.text;
-    if (!text) throw new Error("The model returned an empty response.");
-    
+    if (!text) throw new Error("Model timeout.");
     return JSON.parse(text) as AnalysisResult;
   } catch (error: any) {
-    console.error("Gemini API Error:", error);
-    // Standardize error handling without exposing internal configuration details
-    throw new Error("The intelligence core could not process your resume. Please check the text length and try again.");
+    throw new Error("Neural connection failure.");
   }
 }

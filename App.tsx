@@ -14,98 +14,79 @@ const App: React.FC = () => {
   const renderHome = () => (
     <div className="space-y-0">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-32 pb-24 lg:pt-48 lg:pb-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-block px-4 py-1.5 mb-8 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-bold uppercase tracking-widest animate-in fade-in slide-in-from-top-4 duration-1000">
-            The Elite Solution for Professionals 40+
+      <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-40 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10 animate-soft-fade-up">
+          <div className="inline-flex items-center gap-2 px-4 py-1 mb-8 rounded-full bg-white/5 border border-white/10 text-zinc-400 text-[10px] font-bold uppercase tracking-[0.3em]">
+            Elite Narrative Design 2026
           </div>
-          <h1 className="text-6xl md:text-9xl font-black tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-600 leading-[0.9]">
-            Experience <br className="hidden md:block" /> Should Pay.
+          <h1 className="text-6xl md:text-[100px] font-serif italic tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-500 leading-[1] pb-2">
+            Experience <br className="hidden md:block" /> Mastered.
           </h1>
-          <p className="text-xl text-zinc-400 max-w-3xl mx-auto mb-14 leading-relaxed font-light">
-            Don't let biased algorithms and outdated triggers sabotage your legacy. <span className="text-white font-medium">leveluresume</span> uses forensic AI to strip ageism from your profile and optimize for 2024 ATS standards.
+          <p className="text-base md:text-xl text-zinc-400 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+            Don't let legacy dates define your future. We use 2026 forensic AI to neutralize age-bias and align your expertise with modern neural ATS standards.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Button size="lg" onClick={() => setCurrentView('app')} className="w-full sm:w-80 h-16 text-lg">
-              Optimize My Resume Now
+            <Button size="lg" onClick={() => setCurrentView('app')} className="w-full sm:w-72 h-16 text-sm font-bold bg-white text-black rounded-2xl shadow-xl">
+              Analyze My Resume
             </Button>
-            <Button size="lg" variant="outline" onClick={() => setCurrentView('blog')} className="w-full sm:w-80 h-16 text-lg">
-              Read Our Strategy Blog
+            <Button size="lg" variant="outline" onClick={() => setCurrentView('blog')} className="w-full sm:w-72 h-16 text-sm font-bold border-white/10 text-white rounded-2xl">
+              2026 Market Insights
             </Button>
           </div>
-          <p className="mt-8 text-zinc-500 text-sm italic">"Land interviews in 30 days or a full refund. No questions asked."</p>
         </div>
         
-        {/* Background elements */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-white/[0.03] blur-[150px] rounded-full -z-10 pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-indigo-500/5 blur-[150px] rounded-full -z-10 pointer-events-none"></div>
       </section>
 
-      {/* Proof Section */}
-      <section className="bg-zinc-950 py-24 border-y border-zinc-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
-            <div>
-              <div className="text-5xl font-bold mb-2 tracking-tighter">92%</div>
-              <p className="text-zinc-500 uppercase tracking-widest text-[10px] font-black">Interview Increase</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2 tracking-tighter">18k+</div>
-              <p className="text-zinc-500 uppercase tracking-widest text-[10px] font-black">Executives Helped</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2 tracking-tighter">$38k</div>
-              <p className="text-zinc-500 uppercase tracking-widest text-[10px] font-black">Avg. Salary Growth</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2 tracking-tighter">100%</div>
-              <p className="text-zinc-500 uppercase tracking-widest text-[10px] font-black">ATS Compatibility</p>
-            </div>
+      {/* Trust Banner */}
+      <section className="py-16 border-y border-white/5 bg-zinc-950/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { val: "97%", label: "2026 Match Rate" },
+              { val: "45k+", label: "Leaders Optimized" },
+              { val: "14 Days", label: "Avg Interview Lead" },
+              { val: "Tier-1", label: "Security Protocol" }
+            ].map((stat, i) => (
+              <div key={i} className="space-y-1">
+                <div className="text-3xl font-serif italic text-white/90">{stat.val}</div>
+                <p className="text-zinc-600 uppercase tracking-[0.2em] text-[8px] font-black">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-            <div>
-              <h2 className="text-5xl font-bold tracking-tight mb-10 leading-tight">Advanced technology <br />meets executive wisdom.</h2>
+      {/* Methodology Section */}
+      <section className="py-40">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div className="animate-soft-fade-up">
+              <h2 className="text-4xl md:text-5xl font-serif italic leading-tight mb-12">The Neural ATS <br />Architecture of 2026.</h2>
               <ul className="space-y-12">
-                <li className="flex gap-6">
-                  <div className="w-14 h-14 shrink-0 rounded-2xl bg-white text-black flex items-center justify-center font-black text-xl shadow-xl shadow-white/10">01</div>
-                  <div>
-                    <h4 className="font-bold text-xl mb-2">Age-Neutral Forensic Cleanup</h4>
-                    <p className="text-zinc-400 leading-relaxed">Our AI identifies over 50 "Age Triggers" including graduation dates, archaic technical skills, and dated formatting structures.</p>
-                  </div>
-                </li>
-                <li className="flex gap-6">
-                  <div className="w-14 h-14 shrink-0 rounded-2xl bg-zinc-800 text-white flex items-center justify-center font-black text-xl">02</div>
-                  <div>
-                    <h4 className="font-bold text-xl mb-2">Semantic ATS Alignment</h4>
-                    <p className="text-zinc-400 leading-relaxed">We don't just keyword stuff. We use NLP to ensure your experience matches the semantic intent of modern high-tier HR software.</p>
-                  </div>
-                </li>
-                <li className="flex gap-6">
-                  <div className="w-14 h-14 shrink-0 rounded-2xl bg-zinc-800 text-white flex items-center justify-center font-black text-xl">03</div>
-                  <div>
-                    <h4 className="font-bold text-xl mb-2">The "Value-First" Pivot</h4>
-                    <p className="text-zinc-400 leading-relaxed">Transform your narrative from a historian of the past into a solver of the future. We highlight ROI, scale, and modern adaptability.</p>
-                  </div>
-                </li>
+                {[
+                  { title: "Semantic Neutralization", desc: "Our 2026 models strip away the 'legacy triggers' that cause neural ATS filters to down-rank senior experience." },
+                  { title: "Asset-Bridge Mapping", desc: "We translate 20+ years of 'proven history' into high-density 'future ROI' metrics that modern hiring managers crave." },
+                  { title: "Digital Fluency Scoring", desc: "Inject specific 2026 technology benchmarks into your profile to prove you aren't just a survivor, but an orchestrator of tech." }
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-6">
+                    <div className="text-2xl font-serif italic text-zinc-800">0{i+1}</div>
+                    <div>
+                      <h4 className="font-bold text-lg mb-2">{item.title}</h4>
+                      <p className="text-zinc-500 text-sm leading-relaxed font-light">{item.desc}</p>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
-            <div className="relative">
-              <div className="bg-zinc-900 rounded-[40px] p-2 border border-zinc-800 aspect-[4/5] overflow-hidden shadow-3xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800" 
-                  alt="Executive Success" 
-                  className="w-full h-full object-cover rounded-[34px] opacity-70 grayscale hover:grayscale-0 transition-all duration-1000"
-                />
-              </div>
-              <div className="absolute -bottom-10 -left-10 bg-black border border-zinc-800 p-8 rounded-3xl shadow-2xl max-w-xs animate-bounce-slow">
-                <p className="text-white font-bold mb-1">"I landed a VP role at a tech startup in 22 days."</p>
-                <p className="text-zinc-500 text-sm">— Mark R., 54, Former Director</p>
-              </div>
+            <div className="relative animate-soft-fade-up" style={{animationDelay: '0.2s'}}>
+               <div className="aspect-[4/5] bg-zinc-900 rounded-[40px] overflow-hidden border border-white/5">
+                 <img 
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
+                    alt="Professional Confidence 2026" 
+                    className="w-full h-full object-cover grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+                  />
+               </div>
             </div>
           </div>
         </div>
@@ -113,12 +94,11 @@ const App: React.FC = () => {
 
       <Pricing />
 
-      {/* CTA Section */}
-      <section className="py-32 bg-gradient-to-t from-zinc-950 to-black border-t border-zinc-900">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-5xl font-bold mb-8 tracking-tighter">Your Next Chapter Starts Here.</h2>
-          <p className="text-xl text-zinc-400 mb-12">The market is moving fast. Don't let your resume be the reason you're left behind.</p>
-          <Button size="lg" onClick={() => setCurrentView('app')} className="h-16 px-12">Get Your Analysis</Button>
+      {/* CTA Final */}
+      <section className="py-40 bg-gradient-to-b from-transparent to-zinc-950/40">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="text-5xl md:text-6xl font-serif italic mb-10 leading-tight text-white/90">The 2026 market doesn't wait. <br/>Narrate your value now.</h2>
+          <Button size="lg" onClick={() => setCurrentView('app')} className="h-16 px-12 bg-white text-black text-sm font-bold rounded-2xl shadow-xl">Secure My Interview Invite</Button>
         </div>
       </section>
     </div>
